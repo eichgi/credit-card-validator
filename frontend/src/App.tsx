@@ -1,33 +1,59 @@
-import { useState } from 'react'
+import {useState} from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import {request} from "./api/request.ts";
+import {APIResponse} from "./types/response.ts";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [creditCard, setCreditCard] = useState<string>("")
+  const [loading, setLoading] = useState<boolean>(false);
+  const [isValid, setIsValid] = useState<boolean>(false);
+  const [additionalData, setAdditionalData] = useState<string>("");
+
+  const validateCC = async () => {
+    if (!creditCard) {
+      return;
+    }
+    setLoading(true);
+    const response: APIResponse = await request('/validate/cc', {creditCard}, 'POST');
+    setIsValid(response.isValid || false);
+    setAdditionalData(response.error || "");
+    setLoading(false);
+  }
 
   return (
     <>
       <div>
         <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
+          <img src={viteLogo} className="logo" alt="Vite logo"/>
         </a>
         <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
+          <img src={reactLogo} className="logo react" alt="React logo"/>
         </a>
       </div>
-      <h1>Vite + React</h1>
+      <h1>Credit Card Validation</h1>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
+        <label htmlFor="label--cc" className="cc-input">Credit Card Number:</label>
+        <input
+          id="input--cc"
+          type="text"
+          onChange={(e) => setCreditCard(e.target.value)}
+          value={creditCard}
+          className="input--cc"
+        />
+        <button
+          className="button"
+          onClick={() => validateCC()}
+          disabled={loading}
+        >
+          {!loading ? 'Validate Credit Card' : 'Validating...'}
         </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
+      <p className="p--valid-card">
+        {isValid ? 'VALID CARD NUMBER' : 'INVALID CARD NUMBER'}
       </p>
+      <p>{additionalData}</p>
     </>
   )
 }

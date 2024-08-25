@@ -4,8 +4,6 @@ import {AppService} from './app.service';
 import {CreditCardDto} from "./dto/credit-card.dto";
 import {CreditCardResponseDto} from "./dto/credit-card.response.dto";
 
-const httpMocks = require('node-mocks-http');
-
 describe('AppController', () => {
   let appController: AppController;
 
@@ -26,9 +24,6 @@ describe('AppController', () => {
 
   describe('creditCard', () => {
     it('4485275742308327 should return valid credit card', async () => {
-
-      let mockedExpressResponse = httpMocks.createResponse();
-
       const creditCardDto: CreditCardDto = {
         "creditCard": "4485275742308327"
       };
@@ -38,14 +33,11 @@ describe('AppController', () => {
         "isValid": true
       };
 
-      const output = await appController.validateCreditCard(creditCardDto, mockedExpressResponse);
+      const output = await appController.validateCreditCard(creditCardDto);
       expect(output).toEqual(expectedOutput);
     });
 
     it('4485275742308328 should return invalid credit card', async () => {
-
-      let mockedExpressResponse = httpMocks.createResponse();
-
       const creditCardDto: CreditCardDto = {
         "creditCard": "4485275742308328"
       };
@@ -55,7 +47,7 @@ describe('AppController', () => {
         "isValid": false
       };
 
-      const output = await appController.validateCreditCard(creditCardDto, mockedExpressResponse);
+      const output = await appController.validateCreditCard(creditCardDto);
       expect(output).toEqual(expectedOutput);
     });
   });

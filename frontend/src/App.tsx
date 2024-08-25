@@ -37,12 +37,14 @@ function App() {
         <label htmlFor="label--cc" className="cc-input">Credit Card Number:</label>
         <input
           id="input--cc"
+          data-testid="input-cc"
           type="text"
           onChange={(e) => setCreditCard(e.target.value)}
           value={creditCard}
           className="input--cc"
         />
         <button
+          data-testid="button-validate-cc"
           className="button"
           onClick={() => validateCC()}
           disabled={loading}
@@ -51,7 +53,7 @@ function App() {
         </button>
       </div>
       <p className="p--valid-card">
-        {isValid ? 'VALID CARD NUMBER' : 'INVALID CARD NUMBER'}
+        {!loading && isValid ? 'VALID CARD NUMBER' : 'INVALID CARD NUMBER' /*""*/}
       </p>
       <p>{additionalData}</p>
     </>

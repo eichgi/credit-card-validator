@@ -1,4 +1,4 @@
-import {APIResponse} from "../types/response.ts";
+import {APIResponse} from "../types/response";
 
 const apiBaseUrl = 'http://localhost:3000/api/v1';
 
@@ -7,19 +7,19 @@ export async function request(url: string, params: object, method: string = 'GET
     method: method,
     headers: {
       'Content-Type': 'application/json'
-    }
+    },
+    body: "",
   }
 
   if (params) {
     if (method == 'POST') {
-      // @ts-ignore
       options.body = JSON.stringify(params);
     }
   }
 
   try {
     const response = await fetch(apiBaseUrl + url, options);
-    const result = await response.json();
+    const result: APIResponse = await response.json();
 
     if (response.status !== 200) {
       const {message} = result;
@@ -34,7 +34,7 @@ export async function request(url: string, params: object, method: string = 'GET
     }
 
     return result;
-  } catch (error) {
+  } catch (error: any) {
     return {
       error: error?.message,
       isValid: false

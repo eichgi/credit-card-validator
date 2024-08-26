@@ -1,5 +1,5 @@
-import {Injectable} from '@nestjs/common';
-import {CreditCardDto} from "./dto/credit-card.dto";
+import { Injectable } from '@nestjs/common';
+import { CreditCardDto } from './dto/credit-card.dto';
 
 @Injectable()
 export class AppService {
@@ -8,19 +8,19 @@ export class AppService {
   }
 
   validateCreditCard(creditCardDto: CreditCardDto) {
-    const {creditCard} = creditCardDto;
+    const { creditCard } = creditCardDto;
 
     const arr = `${creditCard}`
       .split('')
       .reverse()
-      .map(x => Number.parseInt(x));
+      .map((x) => Number.parseInt(x));
 
     const lastDigit = arr.shift();
 
     let sum = arr.reduce(
       (acc, val, i) =>
         i % 2 !== 0 ? acc + val : acc + ((val *= 2) > 9 ? val - 9 : val),
-      0
+      0,
     );
     sum += lastDigit;
 
@@ -28,7 +28,7 @@ export class AppService {
 
     return {
       isValid,
-      creditCard
-    }
+      creditCard,
+    };
   }
 }

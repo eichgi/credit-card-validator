@@ -26,6 +26,8 @@ If port available frontend will be running at [http://localhost:5173](http://loc
 
 If port available backend will be running at [http://localhost:3000](http://localhost:3000)
 
+### API Docs can be found here [http://localhost:3000/docs](http://localhost:3000/docs)
+
 ### Valid credit card example request
 
 Request:
